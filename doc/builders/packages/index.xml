@@ -20,7 +20,6 @@
  <xi:include href="etc-files.section.xml" />
  <xi:include href="nginx.section.xml" />
  <xi:include href="opengl.section.xml" />
- <xi:include href="shell-helpers.section.xml" />
  <xi:include href="steam.section.xml" />
  <xi:include href="cataclysm-dda.section.xml" />
  <xi:include href="urxvt.section.xml" />
