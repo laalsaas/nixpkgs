@@ -7,7 +7,7 @@
 }:
 
 stdenvNoCC.mkDerivation rec {
-  name = "blesh";
+  pname = "blesh";
   version = "unstable-2022-07-29";
 
   src = fetchzip {
@@ -24,7 +24,7 @@ stdenvNoCC.mkDerivation rec {
   installPhase = ''
     runHook preInstall
 
-    mkdir -p "$out/share/blesh/lib"
+    install -d "$out/share/blesh/lib"
 
     cat <<EOF >"$out/share/blesh/lib/_package.sh"
     _ble_base_package_type=nix
@@ -41,11 +41,17 @@ stdenvNoCC.mkDerivation rec {
   '';
 
   postInstall = ''
-    mkdir -p "$out/bin"
+    install -d $out/bin
     cat <<EOF >"$out/bin/blesh-share"
     #!${runtimeShell}
-    # Run this script to find the ble.sh shared folder
-    # where all the shell scripts are living.
+    # TODO: remove this after 23.05, but ideally before 23.11, as well as in fzf, skim, zsh-autoenv.
+    echo 'The ${pname}-share script is deprecated and will be removed soon.' >&2
+    if [ -f "/etc/NIXOS" ]; then
+      echo 'On NixOS, you can just use the module (programs.bash.blesh.enable).'
+    else
+      echo 'On non-NixOS-systems, you can just directly source `~/.nix-profile/share/blesh/ble.sh`.'
+    fi >&2
+
     echo "$out/share/blesh"
     EOF
     chmod +x "$out/bin/blesh-share"
