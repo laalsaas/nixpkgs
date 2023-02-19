@@ -1,6 +1,10 @@
-{ lib, stdenv, fetchFromGitHub, runtimeShell }:
+{ lib
+, stdenv
+, fetchFromGitHub
+, runtimeShell
+}:
 
-stdenv.mkDerivation {
+stdenv.mkDerivation rec {
   pname = "zsh-autoenv";
   version = "unstable-2017-12-16";
 
@@ -19,8 +23,13 @@ stdenv.mkDerivation {
 
     cat <<SCRIPT > $out/bin/zsh-autoenv-share
     #!${runtimeShell}
-    # Run this script to find the zsh-autoenv shared folder where all the shell
-    # integration scripts are living.
+    # TODO: remove this after 23.05, but ideally before 23.11, as well as in fzf, skim and blesh.
+    echo 'The ${pname}-share script is deprecated and will be removed soon.' >&2
+    if [ -f "/etc/NIXOS" ]; then
+      echo 'On NixOS, you can just use the module (programs.zsh.zsh-autoenv.enable).'
+    else
+      echo 'On non-NixOS-systems, you can just directly source `~/.nix-profile/share/zsh-autoenv/init.zsh`.'
+    fi >&2
     echo $out/share/zsh-autoenv
     SCRIPT
     chmod +x $out/bin/zsh-autoenv-share
