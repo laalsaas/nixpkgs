@@ -87,8 +87,13 @@ buildGoModule rec {
 
     cat <<SCRIPT > $out/bin/fzf-share
     #!${runtimeShell}
-    # Run this script to find the fzf shared folder where all the shell
-    # integration scripts are living.
+    # TODO: remove this after 23.05, but ideally before 23.11, as well as in zsh-autoenv, skim and blesh.
+    echo 'The ${pname}-share script is deprecated and will be removed soon.' >&2
+    if [ -f "/etc/NIXOS" ]; then
+      echo 'On NixOS, you can just use the module (programs.fzf.enable).'
+    else
+      echo 'On non-NixOS-systems, you can just directly source `~/.nix-profile/share/fzf/<wanted_script.sh>`'
+    fi >&2
     echo $out/share/fzf
     SCRIPT
     chmod +x $out/bin/fzf-share
