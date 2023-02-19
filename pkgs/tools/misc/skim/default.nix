@@ -35,8 +35,13 @@ rustPlatform.buildRustPackage rec {
 
     cat <<SCRIPT > $out/bin/sk-share
     #! ${stdenv.shell}
-    # Run this script to find the skim shared folder where all the shell
-    # integration scripts are living.
+    # TODO: remove this after 23.05, but ideally before 23.11, as well as in zsh-autoenv, fzf and blesh.
+    echo 'The sk-share script is deprecated and will be removed soon.' >&2
+    if [ -f "/etc/NIXOS" ]; then
+      echo 'On NixOS, you can just use the module (programs.skim.enable).'
+    else
+      echo 'On non-NixOS-systems, you can just directly source `~/.nix-profile/share/skim/<wanted_script.sh>`'
+    fi >&2
     echo $out/share/skim
     SCRIPT
     chmod +x $out/bin/sk-share
