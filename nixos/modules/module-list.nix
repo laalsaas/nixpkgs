@@ -286,6 +286,7 @@
   ./programs/thunar.nix
   ./programs/thunderbird.nix
   ./programs/tmux.nix
+  ./programs/tpm-fido.nix
   ./programs/traceroute.nix
   ./programs/trippy.nix
   ./programs/tsm-client.nix
